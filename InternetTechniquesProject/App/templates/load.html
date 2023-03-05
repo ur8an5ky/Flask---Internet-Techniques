@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/matches.css')}}" />
+{% endblock %}
+{% block title %}
+    Załaduj dane
+{% endblock %}
+{% block content %}
+    <p></p>
+    <table class="table table-hover" style="background-color: #edeee4;">
+        <thead>
+            <tr style="background-color: #edeee4;">
+                <th scope="col">ID</th>
+                <th scope="col">Szybkość kulki</th>
+                <th scope="col">Promień kulki</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    {% if item.user == current_user.username %}
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.speed }}</td>
+                        <td>{{ item.radius }}</td>
+                        <td>
+                            <a class="btn btn-secondary" id="load" value="load" href="{{ url_for('fizyka_page', sp=item.speed, rd=item.radius) }}" role="button">Load This</a>
+                        </td>
+                    {% endif %}                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block actions %}
+{% endblock %}

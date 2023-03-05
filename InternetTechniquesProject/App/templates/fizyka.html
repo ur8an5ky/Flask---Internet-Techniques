@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block style %}
+    
+{% endblock %}
+{% block title %}
+    Strona Główna
+{% endblock %}
+{% block content %}
+<p style="color:#edeee4; text-align: left; position: absolute; margin-top: 11em; margin-left: 2em;">
+      <a class="btn btn-outline text-uppercase fs-1 fw-bold" style="color: #c3c3be;background-color: transparent;" href="https://brain.fuw.edu.pl/edu/index.php/FizykaII_OO/Odbicie_i_załamanie_światła" role="button">Kąt odbicia --></a>
+</p>
+<br>
+  <div class="container">
+    <form method="POST" class="form-inline" style="color: #edeee4; font-weight: bold;" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="row">
+          <div class="col">
+            {{ form.speed.label() }}: {{ form.speed(class="form-control", style="text-align: center;", min="1", max="10", value=spd, type="number") }}
+          </div>
+          <div class="col">
+            {{ form.radius.label() }}: {{ form.radius(class="form-control", style="text-align: center;", min="1", max="30", value=rds, type="number") }}
+          </div>
+        </div>
+        <br>
+        {% if current_user.is_authenticated %}          
+          <div class="col btn-group py-2" role="group" aria-label="Basic example">
+              {{ form.submit(class="btn btn-outline", style="color: white;background-color: #4c0e1e;") }}
+              <a class="btn btn-outline" id="load" value="load" href="{{ url_for('load_page') }}" role="button" style="color: white;background-color: #4c0e1e;">Załaduj</a>
+          </div>
+        {% else %}
+          <div class="col btn-group py-2" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary" disabled id="save" value="save">Zapisz</button>
+              <button type="button" class="btn btn-secondary" disabled id="load" value="load">Załaduj</button>
+          </div>
+        {% endif %}
+    </form>
+  </div>
+</form> 
+<button type="button" class="btn btn-primary" id="pattern" value="see_path" onclick="showPath()" style="position:absolute; text-align: center; margin-left: 15.3%;">Podgląd ścieżki</button>
+  <canvas id="cvs" style="margin-top: 5em;"></canvas>
+
+  
+  <script src="{{url_for('static', filename='js/fizyka.js')}}"></script>
+
+{% endblock %}
+{% block actions %}
+{% endblock %}

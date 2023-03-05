@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/menu.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/grid.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+
+
+    <script src="{{url_for('static', filename='js/properties.js')}}"></script>
+    <script src="{{url_for('static', filename='js/maze_generator.js')}}"></script>
+    <script src="{{url_for('static', filename='js/maze_solver.js')}}"></script>
+    <script src="{{url_for('static', filename='js/menu.js')}}"></script>
+    <script src="{{url_for('static', filename='js/visualizer.js')}}"></script>
+    <script src="{{url_for('static', filename='js/script.js')}}"></script>
+{% endblock %}
+{% block title %}
+    Shortest Path Page
+{% endblock %}
+{% block content %}
+    <div id="nav">
+        <nav class="navbar text-info" id="menu" style="background-color: #edeee4;">
+            <div class="container-fluid">
+            <a class="navbar-brand mb-0 h1" href="{{ url_for('shortest_path_page') }}" style="color: #581426;">Settings</a>
+
+            <form action="/shortest_path" method="POST">
+                <div class="row">
+                    <div class="col form-floating" style="width: 8rem; color: black;">
+                        <input min="1" max="59" value="{{ x_s }}" step="2" type="number" id="start_x" name="start_x" class="form-control" />
+                        <label class="form-label" for="typeNumber">X starting position</label>
+                    </div>
+                    <div class="col form-floating" style="width: 8rem; color: black;">
+                        <input min="1" max="25" value="{{ y_s }}" step="2" type="number" id="start_y" name="start_y" class="form-control" />
+                        <label class="form-label" for="typeNumber">Y starting position</label>
+                    </div>
+
+                <label class="col select" for="slct_2">
+                    <select name="slct_2" id="slct_2" required="required">
+                        <option selected value="0">Custom</option>
+                        <option value="1">Random</option>
+                    </select>
+                    <svg>
+                        <use xlink:href="#select-arrow-down"></use>
+                    </svg>
+                </label>
+
+                {% if alg == 0 %}
+                    <div class="col btn-group py-2" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="solver" id="dijkstra" value="dijkstra" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="dijkstra">Dijkstra</label>
+                    
+                        <input type="radio" class="btn-check" name="solver" id="astar" value="astar" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="astar">A*</label>
+
+                        <input type="radio" class="btn-check" name="solver" id="bidirectional" value="bidirectional" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="bidirectional">Bidirectional</label>
+                    </div> 
+                {% elif alg == 1 %}
+                    <div class="col btn-group py-2" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="solver" id="dijkstra" value="dijkstra" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="dijkstra">Dijkstra</label>
+                    
+                        <input type="radio" class="btn-check" name="solver" id="astar" value="astar" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="astar">A*</label>
+
+                        <input type="radio" class="btn-check" name="solver" id="bidirectional" value="bidirectional" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="bidirectional">Bidirectional</label>
+                    </div> 
+                {% else %}
+                    <div class="col btn-group py-2" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="solver" id="dijkstra" value="dijkstra" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="dijkstra">Dijkstra</label>
+                    
+                        <input type="radio" class="btn-check" name="solver" id="astar" value="astar" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="astar">A*</label>
+
+                        <input type="radio" class="btn-check" name="solver" id="bidirectional" value="bidirectional" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="bidirectional">Bidirectional</label>
+                    </div> 
+                {% endif %}
+
+                  
+
+                <div class="col btn-group py-2" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-primary" id="clear" value="random" >Clear</button>
+                    <button type="button" class="btn btn-success" id="play" value="random" >Play</button>
+                </div>
+
+                {% if current_user.is_authenticated %}
+                    <div class="col btn-group py-2" role="group" aria-label="Basic example">
+                        <!-- <input type="submit" class="btn btn-dark" id="save" value="save"/> -->
+                        <button type="submit" class="btn btn-dark" id="save" value="save">Save</button>
+                        <a class="btn btn-dark" id="load" value="load" href="{{ url_for('load_page') }}" role="button">Load</a>
+                    </div>
+                {% else %}
+                    <div class="col btn-group py-2" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary" disabled id="save" value="save">Save</button>
+                        <button type="button" class="btn btn-secondary" disabled id="load" value="load">Load</button>
+                    </div>
+                {% endif %}
+            </div>
+            </form>
+        
+        </nav>
+    </div>
+
+    <div id="visualizer">
+        <div id="grid"></div>
+    </div>
+
+    <div id="hider"></div>
+{% endblock %}
+{% block actions %}
+
+{% endblock %}
